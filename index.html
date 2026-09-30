@@ -6,126 +6,47 @@
   <title>TikTok Video Analyzer</title>
   <style>
     *{box-sizing:border-box;margin:0;padding:0;font-family: 'Segoe UI', Arial, sans-serif}
-    body{
-      background: #010101;
-      color:white;
-      min-height:100vh;
-      position:relative;
-      overflow-x:hidden;
-    }
-    /* Effet TikTok derrière */
-    body::before{
-      content:'';
-      position:fixed;
-      top:0;left:0;right:0;bottom:0;
-      background: radial-gradient(circle at 20% 20%, rgba(0,242,234,0.15), transparent 40%),
-                  radial-gradient(circle at 80% 80%, rgba(255,0,80,0.15), transparent 40%);
-      z-index:-1;
-    }
-    header{
-      padding:25px 20px;
-      text-align:center;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #222;
-      position:sticky; top:0; z-index:10;
-    }
+    body{background:#010101;color:white;min-height:100vh;position:relative;overflow-x:hidden}
+    body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background: radial-gradient(circle at 20% 20%, rgba(0,242,234,0.15), transparent 40%), radial-gradient(circle at 80% 80%, rgba(255,0,80,0.15), transparent 40%);z-index:-1}
+    header{padding:25px 20px;text-align:center;background: rgba(0,0,0,0.8);backdrop-filter: blur(10px);border-bottom:1px solid #222;position:sticky;top:0;z-index:10}
     header h1{font-size:28px;font-weight:900;letter-spacing:-1px}
-    header h1 span:first-child{
-      color:#00f2ea;
-      text-shadow: 2px 0 #ff0050;
-    }
-    header h1 span:last-child{
-      color:#ff0050;
-      text-shadow: -2px 0 #00f2ea;
-    }
+    header h1 span:first-child{color:#00f2ea;text-shadow:2px 0 #ff0050}
+    header h1 span:last-child{color:#ff0050;text-shadow:-2px 0 #00f2ea}
     header p{color:#aaa;margin-top:8px;font-size:14px}
-   .container{width:92%;max-width:900px;margin:30px auto}
-   .upload-box{
-      border:2px dashed #333;
-      border-radius:20px;
-      padding:40px 20px;
-      text-align:center;
-      background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
-      box-shadow: 0 0 30px rgba(255,0,80,0.1), 0 0 30px rgba(0,242,234,0.05);
-    }
-   .upload-icon{font-size:60px;margin-bottom:15px;filter: drop-shadow(2px 0 0 #ff0050) drop-shadow(-2px 0 0 #00f2ea);}
-   .upload-box h2{margin-bottom:10px;font-size:22px}
-   .upload-box p{color:#999;margin-bottom:25px;font-size:14px}
+  .container{width:92%;max-width:900px;margin:30px auto}
+  .upload-box{border:2px dashed #333;border-radius:20px;padding:40px 20px;text-align:center;background:linear-gradient(135deg,#111 0%,#1a1a1a 100%);box-shadow:0 0 30px rgba(255,0,80,0.1),0 0 30px rgba(0,242,234,0.05)}
+  .upload-icon{font-size:60px;margin-bottom:15px;filter:drop-shadow(2px 0 0 #ff0050) drop-shadow(-2px 0 0 #00f2ea)}
+  .upload-box h2{margin-bottom:10px;font-size:22px}.upload-box p{color:#999;margin-bottom:25px;font-size:14px}
     input[type="file"]{display:none}
-   .upload-btn{
-      display:inline-block;
-      background: linear-gradient(90deg, #00f2ea 0%, #ff0050 100%);
-      padding:14px 28px;
-      border-radius:50px;
-      cursor:pointer;
-      font-weight:900;
-      color:black;
-      letter-spacing:0.5px;
-      box-shadow: 0 5px 20px rgba(255,0,80,0.4);
-      transition:0.2s;
-    }
-   .upload-btn:hover{transform:scale(1.05); box-shadow: 0 8px 25px rgba(255,0,80,0.6);}
+  .upload-btn{display:inline-block;background:linear-gradient(90deg,#00f2ea 0%,#ff0050 100%);padding:14px 28px;border-radius:50px;cursor:pointer;font-weight:900;color:black;letter-spacing:0.5px;box-shadow:0 5px 20px rgba(255,0,80,0.4);transition:0.2s}
+  .upload-btn:hover{transform:scale(1.05);box-shadow:0 8px 25px rgba(255,0,80,0.6)}
     #fileName{margin-top:15px;color:#00f2ea;font-size:13px}
-   .video-container{display:none;margin-top:25px;text-align:center}
-    video{width:100%;max-width:380px;max-height:600px;border-radius:18px;background:black;border:2px solid #222;box-shadow: 0 0 20px rgba(0,242,234,0.2);}
-   .analyze-btn{
-      width:100%;margin-top:20px;padding:17px;border:none;border-radius:50px;
-      background: white;color:black;font-size:16px;font-weight:900;cursor:pointer;
-      box-shadow: 0 0 0 2px #00f2ea, 0 0 0 4px #ff0050;
-    }
-   .analyze-btn:disabled{opacity:0.5;cursor:not-allowed}
-   .loading{display:none;text-align:center;margin-top:25px;color:#00f2ea;font-weight:bold;animation: pulse 1s infinite;}
+  .video-container{display:none;margin-top:25px;text-align:center}
+    video{width:100%;max-width:380px;max-height:600px;border-radius:18px;background:black;border:2px solid #222;box-shadow:0 0 20px rgba(0,242,234,0.2)}
+  .analyze-btn{width:100%;margin-top:20px;padding:17px;border:none;border-radius:50px;background:white;color:black;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 0 0 2px #00f2ea,0 0 0 4px #ff0050}
+  .analyze-btn:disabled{opacity:0.5;cursor:not-allowed}
+  .loading{display:none;text-align:center;margin-top:25px;color:#00f2ea;font-weight:bold;animation:pulse 1s infinite}
     @keyframes pulse{0%{opacity:0.5}50%{opacity:1}100%{opacity:0.5}}
-   .results{display:none;margin-top:30px}
-   .results h2{margin-bottom:18px;font-size:22px}
-   .score-card{
-      background: linear-gradient(135deg, #15151c 0%, #0f0f14 100%);
-      border-radius:20px;padding:28px;text-align:center;margin-bottom:20px;
-      border:1px solid #222;
-      border-left: 4px solid #00f2ea;
-      border-right: 4px solid #ff0050;
-    }
-   .score{font-size:70px;font-weight:900;background: linear-gradient(90deg, #00f2ea, #ff0050);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-   .result-card{background:#15151c;padding:20px;border-radius:16px;margin-bottom:14px;border:1px solid #222}
-   .result-card h3{margin-bottom:8px}.result-card p{color:#bbb;line-height:1.6;font-size:14px}
-   .good{border-left:4px solid #00f2ea}.good h3{color:#00f2ea}
-   .bad{border-left:4px solid #ff0050}.bad h3{color:#ff0050}
-   .improve{border-left:4px solid #ffd60a}.improve h3{color:#ffd60a}
-   .add{border-left:4px solid #0a84ff}.add h3{color:#0a84ff}
-   .tips{border-left:4px solid #bf5af2; background: linear-gradient(135deg, #15151c, #1e102a);}.tips h3{color:#bf5af2}
+  .results{display:none;margin-top:30px}.results h2{margin-bottom:18px;font-size:22px}
+  .score-card{background:linear-gradient(135deg,#15151c 0%,#0f0f14 100%);border-radius:20px;padding:28px;text-align:center;margin-bottom:20px;border:1px solid #222;border-left:4px solid #00f2ea;border-right:4px solid #ff0050}
+  .score{font-size:70px;font-weight:900;background:linear-gradient(90deg,#00f2ea,#ff0050);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .result-card{background:#15151c;padding:20px;border-radius:16px;margin-bottom:14px;border:1px solid #222}
+  .result-card h3{margin-bottom:8px}.result-card p{color:#bbb;line-height:1.6;font-size:14px}
+  .good{border-left:4px solid #00f2ea}.good h3{color:#00f2ea}
+  .bad{border-left:4px solid #ff0050}.bad h3{color:#ff0050}
+  .improve{border-left:4px solid #ffd60a}.improve h3{color:#ffd60a}
+  .add{border-left:4px solid #0a84ff}.add h3{color:#0a84ff}
+  .tips{border-left:4px solid #bf5af2;background:linear-gradient(135deg,#15151c,#1e102a)}.tips h3{color:#bf5af2}
     footer{text-align:center;padding:30px 15px;color:#555;font-size:11px}
   </style>
 </head>
 <body>
-<header>
-  <h1><span>TikTok</span> <span>Analyzer</span></h1>
-  <p>Analyse IA avant de publier 🚀</p>
-</header>
+<header><h1><span>TikTok</span> <span>Analyzer</span></h1><p>Analyse IA avant de publier 🚀</p></header>
 <main class="container">
-  <section class="upload-box">
-    <div class="upload-icon">🎬</div>
-    <h2>Analyse ta vidéo</h2>
-    <p>Importe ta vidéo et évite le flop avant de poster.</p>
-    <label for="videoInput" class="upload-btn">📁 CHOISIR UNE VIDÉO</label>
-    <input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime">
-    <div id="fileName"></div>
-  </section>
-  <section class="video-container" id="videoContainer">
-    <video id="videoPreview" controls></video>
-    <button class="analyze-btn" id="analyzeBtn" disabled>🚀 ANALYSER MA VIDÉO</button>
-  </section>
+  <section class="upload-box"><div class="upload-icon">🎬</div><h2>Analyse ta vidéo</h2><p>Importe ta vidéo et évite le flop avant de poster.</p><label for="videoInput" class="upload-btn">📁 CHOISIR UNE VIDÉO</label><input type="file" id="videoInput" accept="video/mp4,video/webm,video/quicktime"><div id="fileName"></div></section>
+  <section class="video-container" id="videoContainer"><video id="videoPreview" controls></video><button class="analyze-btn" id="analyzeBtn" disabled>🚀 ANALYSER MA VIDÉO</button></section>
   <div class="loading" id="loading">🤖 Analyse TikTok en cours...</div>
-  <section class="results" id="results">
-    <h2>📊 Rapport Complet</h2>
-    <div class="score-card"><div class="score" id="score">--</div><p>Score de préparation TikTok</p></div>
-    <div class="result-card good"><h3>🟢 Ce qui va bien</h3><p id="goodResult">...</p></div>
-    <div class="result-card bad"><h3>🔴 Ce qui ne va pas</h3><p id="badResult">...</p></div>
-    <div class="result-card bad"><h3>✂️ À supprimer</h3><p id="deleteResult">...</p></div>
-    <div class="result-card add"><h3>➕ À ajouter</h3><p id="addResult">...</p></div>
-    <div class="result-card improve"><h3>🟡 À améliorer</h3><p id="improveResult">...</p></div>
-    <div class="result-card tips"><h3>🎯 Conseils pour exploser</h3><p id="tipsResult">...</p></div>
-  </section>
+  <section class="results" id="results"><h2>📊 Rapport Complet</h2><div class="score-card"><div class="score" id="score">--</div><p>Score de préparation TikTok</p></div><div class="result-card good"><h3>🟢 Ce qui va bien</h3><p id="goodResult">...</p></div><div class="result-card bad"><h3>🔴 Ce qui ne va pas</h3><p id="badResult">...</p></div><div class="result-card bad"><h3>✂️ À supprimer</h3><p id="deleteResult">...</p></div><div class="result-card add"><h3>➕ À ajouter</h3><p id="addResult">...</p></div><div class="result-card improve"><h3>🟡 À améliorer</h3><p id="improveResult">...</p></div><div class="result-card tips"><h3>🎯 Conseils pour exploser</h3><p id="tipsResult">...</p></div></section>
 </main>
 <footer>TikTok Video Analyzer • Made for creators 🇨🇩</footer>
 <script>
@@ -137,7 +58,7 @@
     loading.style.display="block";results.style.display="none";analyzeBtn.disabled=true;
     try{
       const formData=new FormData();formData.append("video",selectedVideo);
-      const BACKEND_URL="https://TON-BACKEND.onrender.com";
+      const BACKEND_URL="https://tiktok-analyzer-backend-html.onrender.com";
       const res=await fetch(`${BACKEND_URL}/analyze`,{method:"POST",body:formData});
       if(!res.ok)throw new Error("Erreur serveur");
       const data=await res.json();
@@ -149,9 +70,9 @@
       document.getElementById("addResult").textContent=data.toAdd;
       document.getElementById("tipsResult").textContent=data.tips;
       results.style.display="block";results.scrollIntoView({behavior:'smooth'});
-    }catch(e){alert("Serveur non connecté. Mets ta vraie URL Render.");}
+    }catch(e){alert("Serveur non connecté. Attends 30s que Render se réveille puis réessaie.");console.error(e);}
     finally{loading.style.display="none";analyzeBtn.disabled=false;}
   });
 </script>
 </body>
-  </html>
+                                                                                                                                                                          </html>
